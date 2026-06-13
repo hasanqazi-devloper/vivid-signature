@@ -1,0 +1,19 @@
+RewriteEngine On
+
+# SPA fallback: serve index.html for any path that's not a real file/directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /index.html [L]
+
+# Disable caching for HTML — always serve fresh (s-maxage=0 tells CDNs/Fastly not to cache)
+<FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0, s-maxage=0"
+    Header set Surrogate-Control "no-store"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</FilesMatch>
+
+# Cache assets (JS/CSS/images) for 1 year — they have hashed filenames
+<FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>

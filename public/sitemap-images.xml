@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://vividsignature.com/</loc>
+    <image:image>
+      <image:loc>https://vividsignature.com/vivid-signature-logo.png</image:loc>
+      <image:title>Vivid Signature Pro logo</image:title>
+      <image:caption>Vivid Signature Pro premium email signature builder logo.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://vividsignature.com/forged-ops-earth-horizon.png</image:loc>
+      <image:title>Vivid Signature cosmic horizon artwork</image:title>
+      <image:caption>Hero artwork used on the Vivid Signature Pro landing page.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://vividsignature.com/vsp_earth.png</image:loc>
+      <image:title>Vivid Signature earth asset</image:title>
+      <image:caption>Background Earth asset for Vivid Signature Pro.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://vividsignature.com/vsp_moon.png</image:loc>
+      <image:title>Vivid Signature moon asset</image:title>
+      <image:caption>Background Moon asset for Vivid Signature Pro.</image:caption>
+    </image:image>
+  </url>
+</urlset>

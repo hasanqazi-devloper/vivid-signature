@@ -1,0 +1,38 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      // Only allow creation/updates if it's the user's own document
+      allow write: if isOwner(userId);
+    }
+    
+    // Signatures Collection
+    match /signatures/{signatureId} {
+      // Anyone can read a signature (needed if we share links or embed)
+      allow read: if true;
+      
+      // Users can only create signatures where they are set as the owner
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      
+      // Users can only update/delete their own signatures
+      allow update, delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+    
+    // Admin features collection for later
+    match /system/{docId} {
+      allow read, write: if false; // Locked down until admin logic is added
+    }
+  }
+}
