@@ -1412,22 +1412,37 @@ export default function App({ onBackToLanding, onRequestLogin }) {
     const emailText = config.iconEmailText || "#ffffff";
 
     // 👑 Task 2 REFINED: Build Naked Tiny Image Logos (No outlines, no frames, no text abbreviations)
-    const buildIconCell = (s, spacingStyle, vertical = false) => {
-      const trackedHref = addTracking(config[s.key], config);
-      const hasBg = false; // Always force false to strip out physical bounding frames
+  const buildIconCell = (s, spacingStyle, vertical = false) => {
+  const trackedHref = addTracking(config[s.key], config);
+  
+  // Justin ki "tiny and subtle" requirement ke liye size maintain rakha hai
+  const cSize = Math.min(config.iconSize || 18, 20);
+  
+  // Glass-like look ke liye styling: 
+  // background-color: rgba(255,255,255,0.1) -> halka sa glass fill
+  // border: 1px solid rgba(255,255,255,0.2) -> glass border
+const glassStyle = `
+    width:${cSize}px;
+    height:${cSize}px;
+    display:inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Border halka karo */
+    border-radius:6px;
+    background: rgba(255, 255, 255, 0.05); /* Background aur halka karo */
+    backdrop-filter:blur(8px);
+    vertical-align:middle;
+    margin:0;
+    padding:4px; /* Padding barhao taake icon saaf dikhayi de */
+  `.replace(/\s+/g, ' ').trim();
 
-      // Strict miniature limits for naked look (Justin wants them tiny and subtle)
-      const cSize = Math.min(config.iconSize || 16, 18);
+  // 👑 Glassmorphic Icon Node
+  const inner = `<img src="${s.img}" alt="${s.label}" width="${cSize}" height="${cSize}" style="${glassStyle}" />`;
 
-      // 👑 Clean naked image node: directly uses s.img without background fills or boxes
-      const inner = `<img src="${s.img}" alt="${s.label}" width="${cSize}" height="${cSize}" style="width:${cSize}px;height:${cSize}px;display:inline-block;border:0;outline:none;vertical-align:middle;background:transparent;margin:0;padding:0;" />`;
-
-      if (vertical) {
-        const isLast = spacingStyle === '0';
-        return `<tr><td style="padding-bottom:${isLast ? '0' : '5'}px;text-align:left;vertical-align:middle;"><a href="${trackedHref}" style="display:inline-block;text-decoration:none;" target="_blank">${inner}</a></td></tr>`;
-      }
-      return `<td style="${spacingStyle}vertical-align:middle;text-align:left;"><a href="${trackedHref}" style="display:inline-block;text-decoration:none;" target="_blank">${inner}</a></td>`;
-    };
+  if (vertical) {
+    const isLast = spacingStyle === '0';
+    return `<tr><td style="padding-bottom:${isLast ? '0' : '8'}px;text-align:left;vertical-align:middle;"><a href="${trackedHref}" style="display:inline-block;text-decoration:none;" target="_blank">${inner}</a></td></tr>`;
+  }
+  return `<td style="${spacingStyle}vertical-align:middle;text-align:left;"><a href="${trackedHref}" style="display:inline-block;text-decoration:none;" target="_blank">${inner}</a></td>`;
+};
 
     const socialIcons = activeSocials
       .map((s, index) => {
